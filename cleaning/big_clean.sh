@@ -1,20 +1,27 @@
 #!/usr/bin/bash
 
+#saving the files we are given
 files=$1
 
+#saving the directoy
 SCRATCH=$2
 
-a=${files%.*}
+#grabbing the file names
+fileNames="${files%.*}"
 
-here=$(pwd)
+#saving the home directoy
+root=$(pwd)
 
-$echo $here
-
+#unzipping the files to the target directoy
 tar -zxf $files --directory=$SCRATCH
 
 cd $SCRATCH
-$echo $PWD
+
+#Removing all instances of delete me! 
 grep -lr "DELETE ME!" * | xargs rm
 
-tar -czf cleaned_1$a.tgz
-mv cleaned_1$a.tgz $here
+#creating a new zip
+tar -czf cleaned_$fileNames.tgz $fileNames
+
+#Moving the zip to the home directoy
+mv cleaned_$fileNames.tgz $root
